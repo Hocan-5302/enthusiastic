@@ -1,0 +1,56 @@
+#include <stdio.h>
+
+int main() {
+    // Declare variables
+    int customerID, units;
+    char customerName[50];
+    float total_bill, surcharge = 0;
+
+    // 3D array: 1st dimension for different ranges, 2nd dimension holds limits and rates
+    float rates[4][1][2] = {
+        {{199, 1.20}},  // For units <= 199, charge is 1.20
+        {{400, 1.50}},  // For units <= 400, charge is 1.50
+        {{600, 1.80}},  // For units <= 600, charge is 1.80
+        {{9999, 2.00}}  // For units > 600, charge is 2.00 (9999 represents a large number)
+    };
+    
+    float charge_per_unit = 0;
+
+    // Prompt user to input details
+    printf("Enter Customer ID: ");
+    scanf("%d", &customerID);
+    printf("Enter Customer Name: ");
+    scanf("%s", customerName);
+    printf("Enter Units Consumed: ");
+    scanf("%d", &units);
+
+    // Determine charge per unit using 3D array
+    for (int i = 0; i < 4; i++) {
+        if (units <= rates[i][0][0]) {  // Compare units with the first element of the inner array (upper limit)
+            charge_per_unit = rates[i][0][1];  // Set charge_per_unit to the second element of the inner array (rate)
+            break;
+        }
+    }
+
+    // Calculate total bill
+    total_bill = units * charge_per_unit;
+
+    // Apply surcharge if the bill exceeds 400
+    if (total_bill > 400) {
+        surcharge = 0.15 * total_bill;
+        total_bill += surcharge;
+    }
+
+    // Ensure minimum bill is Ksh 100
+    if (total_bill < 100) {
+        total_bill = 100;
+    }
+
+    // Display the bill details
+    printf("\n--- Electricity Bill ---\n");
+    printf("Customer ID       : %d\n", customerID);
+    printf("Customer Name     : %s\n", customerName);
+    printf("Units Consumed    : %d\n", units);
+    printf("Charge per Unit   : %.2f\n",total_bill);
+    return 0;
+    }
