@@ -1,0 +1,52 @@
+#include<stdio.h>//fprint(),printf(),scanf(),fclose()
+#include<stdlib.h>//exit()
+#include<string.h>
+
+#define MAX_CHARS 100
+void write_to_file(const char *filename, const char *sentense){
+    FILE *fptr=fopen(filename,"w");
+    if(fptr==NULL){
+        printf(" error opening file for writing");
+        exit(EXIT_FAILURE);
+    }
+    fprintf(fptr,"%s",sentense);
+    fclose(fptr);
+}
+void read_from_file(const char *filename){
+    FILE *fptr=fopen(filename,"r");
+    if(fptr==NULL){
+        printf("error openning file reading");
+        exit(EXIT_FAILURE);
+        
+    }
+    char line[MAX_CHARS+1];
+    while(fgets(line,MAX_CHARS+1,fptr) !=NULL){
+        printf("%s",line);
+        
+    }
+    fclose(fptr);
+}
+void append_to_file(const char *filename,const char *sentense){
+    FILE *fptr =fopen(filename,"a");
+    if(fptr==NULL);
+    printf("error opening for appending");
+    exit(EXIT_FAILURE);
+    
+}
+
+
+int main(){
+    char sentense[MAX_CHARS+1];
+    printf("enter a sentense(up to %d characters):",MAX_CHARS);
+    fgets(sentense, MAX_CHARS+1,stdin);
+    write_to_file("data.txt",sentense);
+    printf("sentense written to data.txt\n");
+    read_from_file("data.txt");
+    printf("content of data.txt:\n");
+    printf("enter another sentense to append:");
+    fgets(sentense,MAX_CHARS +1,stdin);
+    append_to_file("data.txt",sentense);
+    printf("sentense append to data. txt\n");
+    return 0;
+
+}
